@@ -4,83 +4,67 @@ const Cart = function (goods = [], totalPrice = 0, count = 0) {
   this.goods = goods;
   this.totalPrice = totalPrice;
   this.count = count;
-
-  this.calculateTotalPrice = function () {
-    this.totalPrice = 0;
-    this.goods.forEach(item => {
-      this.totalPrice += item.price;
-    });
-    return this.totalPrice;
-  };
-
-  this.addGoods = function (good) {
-    this.goods.push(good);
-    this.increaseCount();
-  };
-
-  this.getTotalPrice = function () {
-    return this.totalPrice;
-  };
-
-  this.increaseCount = function (goodsCount) {
-    this.count += goodsCount;
-  };
-
-  this.clear = function () {
-    this.goods.length = 0;
-    this.totalPrice = 0;
-    this.count = 0;
-  };
-
-  this.print = function () {
-    console.log('goods:', JSON.stringify(this.goods));
-    console.log('totalPrice:', this.calculateTotalPrice());
-  };
 };
 
-const Goods = function (price, goodName, discont) {
+Cart.prototype.calculateTotalPrice = function () {
+  this.totalPrice = 0;
+  this.goods.forEach(item => {
+    this.totalPrice += item.price;
+  });
+  return this.totalPrice;
+};
+
+Cart.prototype.addGoods = function (good) {
+  this.goods.push(good);
+  this.increaseCount(good.count);
+};
+
+Cart.prototype.getTotalPrice = function () {
+  return this.totalPrice;
+};
+
+Cart.prototype.increaseCount = function (goodCount) {
+  this.count += goodCount;
+};
+
+Cart.prototype.clear = function () {
+  this.goods.length = 0;
+  this.totalPrice = 0;
+  this.count = 0;
+};
+
+Cart.prototype.print = function () {
+  console.log('goods:', JSON.stringify(this.goods));
+  console.log('totalPrice:', this.calculateTotalPrice());
+};
+
+const Goods = function (price, name, discont) {
   this.price = price;
-  this.goodName = goodName;
+  this.name = name;
   this.discont = discont;
 };
 
-const FoodGoods = function () {
-  this.calory = 0;
+const FoodGoods = function (price, name, discont, calory = 0) {
+  Goods.call(this, price, name, discont);
+  this.calory = calory;
 };
-FoodGoods.prototype = Goods;
 
-const ClothingGoods = function () {
-  this.matherial = '';
+const ClothingGoods = function (price, name, discont, matherial = '') {
+  Goods.call(this, price, name, discont);
+  this.matherial = matherial;
 };
-ClothingGoods.prototype = Goods;
 
-const TechnicalGoods = function () {
-  this.type = '';
+const TechnicalGoods = function (price, name, discont, type = '') {
+  Goods.call(this, price, name, discont);
+  this.type = type;
 };
-TechnicalGoods.prototype = Goods;
 
-const apple = new FoodGoods();
-apple.goodName = 'Gren juice';
-apple.price = 3.33;
-apple.discont = 0;
-apple.calory = 33;
-console.log('apple: ', apple);
-
-const dress = new ClothingGoods();
-dress.goodName = 'Red Shock';
-dress.price = 9990;
-dress.discont = 3;
-dress.matherial = 'cloth';
-console.log('dress: ', dress);
-
-const tv = new TechnicalGoods();
-tv.goodName = 'Sony Bravia';
-tv.price = 33000;
-tv.discont = 10;
-tv.type = 'TV';
-console.log('tv: ', tv);
+const apple = new FoodGoods(3.33, 'Gren juice', 0, 3000);
+const dress = new ClothingGoods(9990, 'Red Shock', 3, 'cloth');
+const tv = new TechnicalGoods(33000, 'Sony Bravia', 5, 'TV');
 
 const goodsCart = new Cart();
+
 goodsCart.addGoods(apple);
 goodsCart.addGoods(dress);
 goodsCart.addGoods(tv);
