@@ -16,15 +16,15 @@ Cart.prototype.calculateTotalPrice = function () {
 
 Cart.prototype.addGoods = function (good) {
   this.goods.push(good);
-  this.increaseCount(good.count);
+  this.increaseCount();
 };
 
 Cart.prototype.getTotalPrice = function () {
   return this.totalPrice;
 };
 
-Cart.prototype.increaseCount = function (goodCount) {
-  this.count += goodCount;
+Cart.prototype.increaseCount = function () {
+  this.count += 1;
 };
 
 Cart.prototype.clear = function () {
